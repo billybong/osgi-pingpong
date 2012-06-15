@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features name="DemoRepository-1.0.0">
+  <feature name="OSGI-DEMO" version="1.0.0.redpill-linpro">
+    <bundle>mvn:se.rl.pingpong/api</bundle>
+    <bundle>mvn:se.rl.pingpong/client</bundle>
+    <bundle>mvn:se.rl.pingpong/provider</bundle>
+    <bundle>mvn:se.rl.pingpong/provider-camel</bundle>
+    
+    <feature version="2.9.0.fuse-7-061">camel-core</feature>
+    <feature version="2.9.0.fuse-7-061">camel-blueprint</feature>
+    
+    <config name="se.rl.ping">
+    	timer=5000
+    	endpoint=file:/tmp/pingpong?fileName=pingpong.txt&amp;fileExist=Append
+    </config>
+    <config name="se.rl.pong">
+    	response=Pong
+    </config>
+  </feature>
+</features>

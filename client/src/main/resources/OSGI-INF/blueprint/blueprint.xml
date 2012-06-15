@@ -9,21 +9,21 @@
        http://camel.apache.org/schema/blueprint http://camel.apache.org/schema/blueprint/camel-blueprint.xsd">
 
   <camelContext id="pingContext" trace="false" xmlns="http://camel.apache.org/schema/blueprint">
-    <route id="pingPongRoute">
+    <route id="pingClientRoute">
       <from uri="timer://triggerPingPong?fixedRate=true&amp;period={{timer}}"/>
       <transform>
       	<constant>Ping</constant>
       </transform>
       <bean ref="pingState"/>
-      <log message="${body}"/>
+      <log message="Before call: ${body}"/>
       <bean ref="pongService"/>
-      <log message="${body}"/>
+      <log message="After call: ${body}"/>
       <to uri="{{endpoint}}"/>
     </route>
   </camelContext>
 
   <!-- Reference to an OSGi service that implements the PongService interface -->
-  <reference id="pongService" interface="se.rl.osgi2.api.PongInterface"/>
+  <reference id="pongService" interface="se.rl.pong.api.PongInterface"/>
   
   <bean id="pingState" class="se.rl.osgi.client.PingState"/>
   

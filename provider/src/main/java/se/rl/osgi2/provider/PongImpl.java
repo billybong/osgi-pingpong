@@ -2,7 +2,7 @@ package se.rl.osgi2.provider;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-import se.rl.osgi2.api.PongInterface;
+import se.rl.pong.api.PongInterface;
 
 public class PongImpl implements PongInterface {
 
@@ -14,6 +14,6 @@ public class PongImpl implements PongInterface {
 	}
 	
 	public String pingPong(String ping){
-		return String.format("%s %s (%d),", ping, response, counter.getAndIncrement());
+		return String.format("%s %s (%d)", ping, response, counter.getAndIncrement());
 	}
 }

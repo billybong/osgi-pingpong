@@ -5,17 +5,68 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>se.rl.pingpong</groupId>
-	<artifactId>api</artifactId>
+	<artifactId>provider-camel</artifactId>
 	<packaging>bundle</packaging>
 	<version>1.0.0</version>
-	<name>DEMO-API</name>
+	
+	<name>DEMO-CAMEL-PROVIDER</name>
 	<url>http://www.myorganization.org</url>
 
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-  </properties>
+	<dependencies>
+		<dependency>
+			<groupId>se.rl.pingpong</groupId>
+			<artifactId>api</artifactId>
+			<version>1.0.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+			<version>2.9.0.fuse-7-061</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-blueprint</artifactId>
+			<version>2.9.0.fuse-7-061</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+		</dependency>
+
+		<!-- testing -->
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-test-blueprint</artifactId>
+			<version>2.9.0.fuse-7-061</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<defaultGoal>install</defaultGoal>
@@ -29,12 +80,25 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-            
+
+			<!-- must use fork mode pertest for unit testing with camel-test-blueprint -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-                <version>2.12</version>
-				<configuration></configuration>
+				<version>2.12</version>
+				<configuration>
+					<forkMode>pertest</forkMode>
+				</configuration>
+			</plugin>
+
+			<!-- to run the example using mvn camel:run -->
+			<plugin>
+				<groupId>org.apache.camel</groupId>
+				<artifactId>camel-maven-plugin</artifactId>
+				<version>2.9.0.fuse-7-061</version>
+				<configuration>
+					<useBlueprint>true</useBlueprint>
+				</configuration>
 			</plugin>
 
 			<plugin>
@@ -44,16 +108,15 @@
 				<extensions>true</extensions>
 				<configuration>
 					<instructions>
-						<Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+						<Bundle-SymbolicName>${pom.artifactId}</Bundle-SymbolicName>
 						<Import-Package>*</Import-Package>
-						<Export-Package>se.rl.pong.api</Export-Package>
 					</instructions>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 
-	 <repositories>
+<repositories>
     <repository>
       <id>release.fusesource.org</id>
       <name>FuseSource Release Repository</name>
@@ -111,7 +174,7 @@
       <releases>
         <enabled>false</enabled>
       </releases>
-    </pluginRepository>
+    </pluginRepository>  
     <pluginRepository>
       <id>ea.fusesource.org</id>
       <name>FuseSource Early Access Repository</name>
